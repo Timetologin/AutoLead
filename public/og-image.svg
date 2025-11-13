@@ -1,0 +1,76 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#111;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1a0a0f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#111;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="text-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e11d48;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ff4d6d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e11d48;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="10" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg-gradient)"/>
+
+  <!-- Decorative circles -->
+  <circle cx="150" cy="150" r="100" fill="#e11d48" opacity="0.05"/>
+  <circle cx="1050" cy="480" r="120" fill="#e11d48" opacity="0.05"/>
+
+  <!-- Logo -->
+  <g transform="translate(150, 200)">
+    <circle cx="0" cy="0" r="60" stroke="#e11d48" stroke-width="4" fill="none"/>
+    <circle cx="0" cy="0" r="48" stroke="#e11d48" stroke-width="3" fill="none"/>
+    <line x1="0" y1="-45" x2="0" y2="-25" stroke="#e11d48" stroke-width="4" stroke-linecap="round"/>
+    <line x1="0" y1="25" x2="0" y2="45" stroke="#e11d48" stroke-width="4" stroke-linecap="round"/>
+    <line x1="-45" y1="0" x2="-25" y2="0" stroke="#e11d48" stroke-width="4" stroke-linecap="round"/>
+    <line x1="25" y1="0" x2="45" y2="0" stroke="#e11d48" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="24" fill="#e11d48"/>
+    <path d="M -10 15 L 0 -10 L 10 15 M -7 8 L 7 8" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+
+  <!-- Main text -->
+  <text x="280" y="250" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="url(#text-gradient)" filter="url(#glow)">
+    AutoLead
+  </text>
+
+  <!-- Subtitle in Hebrew -->
+  <text x="280" y="320" font-family="Arial, sans-serif" font-size="36" fill="#ffffff" opacity="0.9" direction="rtl">
+    לידים איכותיים לרכב בישראל
+  </text>
+
+  <!-- Description -->
+  <text x="280" y="380" font-family="Arial, sans-serif" font-size="28" fill="#cccccc" direction="rtl">
+    טרייד-אין ומימון רכב בתנאים הטובים ביותר
+  </text>
+
+  <!-- CTA Badge -->
+  <rect x="280" y="420" width="280" height="70" rx="35" fill="#e11d48"/>
+  <text x="420" y="465" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white" text-anchor="middle">
+    השאר פרטים עכשיו
+  </text>
+
+  <!-- Stats -->
+  <g transform="translate(750, 380)">
+    <rect width="380" height="180" rx="15" fill="rgba(255,255,255,0.05)" stroke="rgba(225,29,72,0.3)" stroke-width="2"/>
+    <text x="190" y="50" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="url(#text-gradient)" text-anchor="middle">
+      12,543+
+    </text>
+    <text x="190" y="90" font-family="Arial, sans-serif" font-size="24" fill="#cccccc" text-anchor="middle">
+      לידים שנוצרו
+    </text>
+    <text x="190" y="140" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#4ade80" text-anchor="middle">
+      98% הצלחה
+    </text>
+  </g>
+</svg>

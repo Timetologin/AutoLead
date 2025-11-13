@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 export default function Admin() {
@@ -98,16 +99,17 @@ export default function Admin() {
           <div className="container-custom px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <a href="/" className="flex items-center gap-3">
+                <Link href="/" className="flex items-center gap-3">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/logo.svg" alt="AutoLead" className="h-10 w-10" />
                   <span className="text-2xl font-bold gradient-text">AutoLead</span>
-                </a>
+                </Link>
                 <span className="text-gray-400">|</span>
                 <h1 className="text-xl font-semibold">ניהול לידים</h1>
               </div>
-              <a href="/" className="text-gray-400 hover:text-white transition-colors">
+              <Link href="/" className="text-gray-400 hover:text-white transition-colors">
                 חזרה לדף הבית
-              </a>
+              </Link>
             </div>
           </div>
         </header>

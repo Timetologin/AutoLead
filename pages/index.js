@@ -1,6 +1,146 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import { motion } from 'framer-motion'
+import Link from 'next/link'
+import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
+
+// Scroll to Top Button Component
+function ScrollToTop() {
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setIsVisible(true)
+      } else {
+        setIsVisible(false)
+      }
+    }
+
+    window.addEventListener('scroll', toggleVisibility)
+    return () => window.removeEventListener('scroll', toggleVisibility)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }
+
+  return (
+    <button
+      onClick={scrollToTop}
+      className={`scroll-to-top ${isVisible ? 'visible' : ''}`}
+      aria-label="חזרה למעלה"
+    >
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M5 10l7-7m0 0l7 7m-7-7v18"
+        />
+      </svg>
+    </button>
+  )
+}
+
+// Stats Counter Component
+function StatsCounter() {
+  const [stats, setStats] = useState({
+    totalLeads: 0,
+    activeUsers: 0,
+    successRate: 0,
+  })
+
+  useEffect(() => {
+    // Animate counters on mount
+    const targets = {
+      totalLeads: 12543,
+      activeUsers: 234,
+      successRate: 98,
+    }
+
+    const duration = 2000 // 2 seconds
+    const steps = 60
+    const increment = duration / steps
+
+    let currentStep = 0
+
+    const timer = setInterval(() => {
+      currentStep++
+      const progress = currentStep / steps
+
+      setStats({
+        totalLeads: Math.floor(targets.totalLeads * progress),
+        activeUsers: Math.floor(targets.activeUsers * progress),
+        successRate: Math.floor(targets.successRate * progress),
+      })
+
+      if (currentStep >= steps) {
+        clearInterval(timer)
+        setStats(targets)
+      }
+    }, increment)
+
+    return () => clearInterval(timer)
+  }, [])
+
+  return (
+    <section className="section-padding bg-dark-gray/30">
+      <div className="container-custom">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="glass-card p-8 text-center hover:bg-white/10 transition-all duration-300"
+          >
+            <div className="text-5xl font-bold gradient-text mb-2 counter-animate">
+              {stats.totalLeads.toLocaleString('he-IL')}+
+            </div>
+            <div className="text-xl text-gray-300">לידים שנוצרו</div>
+            <div className="text-sm text-gray-500 mt-2">מאז ההקמה</div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="glass-card p-8 text-center hover:bg-white/10 transition-all duration-300 pulse-glow"
+          >
+            <div className="text-5xl font-bold gradient-text mb-2 counter-animate">
+              {stats.activeUsers.toLocaleString('he-IL')}
+            </div>
+            <div className="text-xl text-gray-300">משתמשים פעילים</div>
+            <div className="text-sm text-gray-500 mt-2">כרגע באתר</div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="glass-card p-8 text-center hover:bg-white/10 transition-all duration-300"
+          >
+            <div className="text-5xl font-bold gradient-text mb-2 counter-animate">
+              {stats.successRate}%
+            </div>
+            <div className="text-xl text-gray-300">שיעור הצלחה</div>
+            <div className="text-sm text-gray-500 mt-2">סגירת עסקאות</div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
 
 // Toast Notification Component
 function Toast({ message, onClose }) {
@@ -11,16 +151,28 @@ function Toast({ message, onClose }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -50 }}
-      className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-green-500 text-white px-6 py-4 rounded-lg shadow-2xl max-w-md"
+      initial={{ opacity: 0, y: -50, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -50, scale: 0.9 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+      className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-4 rounded-lg shadow-2xl max-w-md"
     >
       <div className="flex items-center gap-3">
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-        </svg>
+        <div className="flex-shrink-0 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
         <p className="font-medium">{message}</p>
+        <button
+          onClick={onClose}
+          className="mr-auto hover:bg-white/10 rounded-full p-1 transition-colors"
+          aria-label="סגור"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
     </motion.div>
   )
@@ -51,6 +203,7 @@ function Header() {
       <nav className="container-custom px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.svg" alt="AutoLead לוגו" className="h-10 w-10" />
             <span className="text-2xl font-bold gradient-text">AutoLead</span>
           </div>
@@ -622,7 +775,7 @@ function Testimonials() {
                   </svg>
                 ))}
               </div>
-              <p className="text-gray-300 mb-4 italic">"{testimonial.text}"</p>
+              <p className="text-gray-300 mb-4 italic">&ldquo;{testimonial.text}&rdquo;</p>
               <p className="font-semibold">{testimonial.name}</p>
             </motion.div>
           ))}
@@ -779,6 +932,7 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-3 mb-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/logo.svg" alt="AutoLead" className="h-10 w-10" />
               <span className="text-2xl font-bold gradient-text">AutoLead</span>
             </div>
@@ -819,7 +973,9 @@ function Footer() {
               <a href="#how-it-works" className="block hover:text-white transition-colors">איך זה עובד</a>
               <a href="#testimonials" className="block hover:text-white transition-colors">המלצות</a>
               <a href="#faq" className="block hover:text-white transition-colors">שאלות נפוצות</a>
-              <a href="/admin" className="block hover:text-white transition-colors">ניהול</a>
+              <Link href="/admin" className="block hover:text-white transition-colors">
+                ניהול
+              </Link>
             </div>
           </div>
         </div>
@@ -856,14 +1012,14 @@ export default function Home() {
         <meta property="og:title" content="AutoLead - לידים איכותיים לרכב בישראל" />
         <meta property="og:description" content="קבל את העסקה הטובה ביותר לטרייד-אין ומימון רכב. שירות מהיר ומקצועי." />
         <meta property="og:url" content="https://autolead.co.il" />
-        <meta property="og:image" content="https://autolead.co.il/og-image.jpg" />
+        <meta property="og:image" content="https://autolead.co.il/og-image.svg" />
         <meta property="og:locale" content="he_IL" />
         
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="AutoLead - לידים איכותיים לרכב" />
         <meta name="twitter:description" content="טרייד-אין ומימון רכב בתנאים הטובים ביותר" />
-        <meta name="twitter:image" content="https://autolead.co.il/og-image.jpg" />
+        <meta name="twitter:image" content="https://autolead.co.il/og-image.svg" />
 
         {/* JSON-LD Schema */}
         <script
@@ -895,6 +1051,7 @@ export default function Home() {
       <main id="main-content">
         <Header />
         <Hero />
+        <StatsCounter />
         <LeadForm onSuccess={handleFormSuccess} />
         <WhyChooseUs />
         <HowItWorks />
@@ -902,13 +1059,16 @@ export default function Home() {
         <FAQ />
         <CTASection />
         <Footer />
-        
-        {showToast && (
-          <Toast
-            message="הפרטים נשלחו בהצלחה! נציג יחזור אליך בקרוב."
-            onClose={() => setShowToast(false)}
-          />
-        )}
+        <ScrollToTop />
+
+        <AnimatePresence>
+          {showToast && (
+            <Toast
+              message="הפרטים נשלחו בהצלחה! נציג יחזור אליך בקרוב."
+              onClose={() => setShowToast(false)}
+            />
+          )}
+        </AnimatePresence>
       </main>
     </>
   )
